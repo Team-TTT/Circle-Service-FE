@@ -31,7 +31,7 @@
     ]
   },
   "lint-staged": {
-    "*.{js}": "eslint --fix"
+    "*.js": "eslint --fix"
   },
   "devDependencies": {
     "eslint": "^8.25.0",
