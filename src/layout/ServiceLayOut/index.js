@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 
 export default function ServiceLayOut() {
+  const [projectInfo, setProjectInfo] = useState({});
+
+  useEffect(() => {
+    fetch("/mockData/project.json")
+      .then((res) => res.json())
+      .then((data) => setProjectInfo(data));
+  }, []);
+
   return (
     <Container>
-      <Outlet />
+      {projectInfo.title ? <Outlet context={{ projectInfo }} /> : null}
     </Container>
   );
 }

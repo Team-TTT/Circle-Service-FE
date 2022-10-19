@@ -25,5 +25,6 @@ module.exports = {
         ignoreTemplateLiterals: true,
       },
     ],
+    "no-underscore-dangle": 0,
   },
 };

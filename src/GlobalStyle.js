@@ -15,6 +15,19 @@ const GlobalStyle = createGlobalStyle`
     padding: 15px;
     background-color: ${theme.skyBlue};
   }
+
+  #iframe-circle {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;
+    width: 370px;
+    height: 250px;
+    min-height: 520px;
+    max-height: 680px;
+    margin: 15px;
+    border-radius: 30px;
+    box-shadow: 0px 12px 60px 5px rgba(0, 0, 0, 0.5);
+  }
 `;
 
 export default GlobalStyle;

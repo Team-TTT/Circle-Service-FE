@@ -8,14 +8,14 @@ import ChannelPage from "../pages/ChannelPage";
 export default function App() {
   return (
     <Routes>
-      <Route path="projects/:projectId" element={<ServiceLayOut />}>
-        <Route index element={<HomePage />} />
-        <Route path="channels/:channelId" element={ChannelPage} />
-      </Route>
       <Route
         path="/"
         element={<Navigate to="/projects/:projectId" replace />}
       />
+      <Route path="projects/:projectId" element={<ServiceLayOut />}>
+        <Route index element={<HomePage />} />
+        <Route path="channels/:channelId" element={<ChannelPage />} />
+      </Route>
     </Routes>
   );
 }

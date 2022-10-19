@@ -1,15 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import styled from "styled-components";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 
 import theme from "../../config/constants/theme";
 
 export default function HomePage() {
+  const { projectInfo } = useOutletContext();
+
   return (
     <Container>
       <CloseButton>
         <CloseIcon />
+        <p>테스트입니다</p>
       </CloseButton>
       <DescriptionWrapper>
         <Title>title</Title>
@@ -19,27 +22,21 @@ export default function HomePage() {
         </FixedDescription>
       </DescriptionWrapper>
       <ChannelsWrapper>
-        <ChannelBox>
-          <ChannelItem to="/projects/:projectId/channels/:channelId">
-            <ChannelTitle># General</ChannelTitle>
-            <ChannelDescription>자유롭게 대화를 나눠보세요</ChannelDescription>
-          </ChannelItem>
-        </ChannelBox>
-        <ChannelBox>
-          <ChannelItem to="/projects/:projectId/channels/:channelId">
-            채널 자리2
-          </ChannelItem>
-        </ChannelBox>
-        <ChannelBox>
-          <ChannelItem to="/projects/:projectId/channels/:channelId">
-            채널 자리3
-          </ChannelItem>
-        </ChannelBox>
-        <ChannelBox>
-          <ChannelItem to="/projects/:projectId/channels/:channelId">
-            채널 자리4
-          </ChannelItem>
-        </ChannelBox>
+        {projectInfo.channels.map(
+          (channel) =>
+            channel.isActive && (
+              <ChannelBox key={channel._id}>
+                <ChannelItem
+                  to={`/projects/${projectInfo._id}/channels/${channel._id}`}
+                >
+                  <ChannelTitle># General</ChannelTitle>
+                  <ChannelDescription>
+                    자유롭게 대화를 나눠보세요
+                  </ChannelDescription>
+                </ChannelItem>
+              </ChannelBox>
+            )
+        )}
       </ChannelsWrapper>
     </Container>
   );
@@ -51,7 +48,9 @@ const Container = styled.div`
   background-color: ${theme.skyBlue};
 `;
 
-const CloseButton = styled.button``;
+const CloseButton = styled.button`
+  margin-left: auto;
+`;
 
 const CloseIcon = styled(IoMdCloseCircleOutline)`
   position: absolute;
