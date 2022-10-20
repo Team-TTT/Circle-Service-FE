@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import styled from "styled-components";
-import { IoMdCloseCircleOutline } from "react-icons/io";
+import Header from "../../components/Header";
 
 import theme from "../../config/constants/theme";
 
@@ -10,12 +10,8 @@ export default function HomePage() {
 
   return (
     <Container>
-      <CloseButton>
-        <CloseIcon />
-        <p>테스트입니다</p>
-      </CloseButton>
+      <Header />
       <DescriptionWrapper>
-        <Title>title</Title>
         <UserDescription>환영합니다!</UserDescription>
         <FixedDescription>
           채널 버튼을 클릭하여 대화에 참여해보세요.
@@ -48,24 +44,6 @@ const Container = styled.div`
   background-color: ${theme.skyBlue};
 `;
 
-const CloseButton = styled.button`
-  margin-left: auto;
-`;
-
-const CloseIcon = styled(IoMdCloseCircleOutline)`
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 15px;
-  font-size: 30px;
-  cursor: pointer;
-`;
-
-const Title = styled.h1`
-  padding-bottom: 20px;
-  font-size: 50px;
-`;
-
 const DescriptionWrapper = styled.div`
   padding: 10px;
 `;
@@ -82,8 +60,8 @@ const ChannelsWrapper = styled.div`
   grid-template-rows: 1fr 1fr;
   grid-template-columns: 1fr 1fr;
   width: 100%;
-  height: 400px;
-  min-height: 400px;
+  height: 350px;
+  min-height: 350px;
 `;
 
 const ChannelBox = styled.div`
@@ -93,7 +71,7 @@ const ChannelBox = styled.div`
   background-color: ${theme.white};
 
   &:hover {
-    background-color: ${theme.gray};
+    background-color: ${theme.lightGray};
     color: ${theme.white};
     @include transition(all 0.5s ease);
   }
