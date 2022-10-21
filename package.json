@@ -1,6 +1,6 @@
 {
   "name": "circle-service-fe",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "실시간 음성채팅 서비스",
   "private": true,
   "dependencies": {
