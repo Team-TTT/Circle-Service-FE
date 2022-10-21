@@ -20,9 +20,12 @@
   <script>
     const circleButton = document.getElementById("core-circle");
 
-    circleButton.addEventListener("click", function(){
-      document.querySelector("#core-circle").style.opacity = 0;
-      document.querySelector("#iframe-circle").style.visibility = "visible";
+    circleButton.addEventListener("click", () => {
+      const circleButton = document.getElementById("core-circle");
+      const circleService = document.getElementById("iframe-circle");
+
+      circleButton.style.opacity = 0;
+      circleService.style.visibility = "visible";
     });
   </script>
 </html>

@@ -9,8 +9,11 @@ export default function HomePage() {
   const { projectInfo } = useOutletContext();
 
   const handleCloseButton = () => {
-    document.querySelector("#core-circle").style.opacity = 1;
-    document.querySelector("#iframe-circle").style.visibility = "hidden";
+    const circleButton = document.getElementById("core-circle");
+    const circleService = document.getElementById("iframe-circle");
+
+    circleButton.style.opacity = 1;
+    circleService.style.visibility = "hidden";
   };
 
   return (
