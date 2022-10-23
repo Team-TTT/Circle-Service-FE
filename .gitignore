@@ -7,3 +7,6 @@
 # misc
 .DS_Store
 .env
+
+# mockData
+/public/mockData

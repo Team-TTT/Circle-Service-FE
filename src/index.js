@@ -1,6 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
+import { BrowserRouter } from "react-router-dom";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<App />);
+import GlobalStyle from "./GlobalStyle";
+import App from "./app/App";
+
+const rootDiv = document.querySelector("#root");
+const root = ReactDOM.createRoot(rootDiv);
+
+root.render(
+  <BrowserRouter>
+    <GlobalStyle />
+    <App />
+  </BrowserRouter>
+);
