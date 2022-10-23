@@ -13,15 +13,10 @@ export default function useSocket() {
       setSocket(getSocket());
     } else {
       socket.connect();
-
-      socket.on("connect", () => {
-        console.log("소켓 연결성공");
-      });
     }
 
     return () => {
       if (socket) {
-        console.log("소켓 연결 종료");
         socket.off(CHANNEL.ANSWER);
         socket.off(CHANNEL.EXISTED_CALLEES);
         socket.off(CHANNEL.RETURN_SIGNAL);

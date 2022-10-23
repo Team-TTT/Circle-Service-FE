@@ -1,10 +1,10 @@
 import { useEffect, useReducer, useRef } from "react";
 import Peer from "simple-peer";
 
-import useSocket from "./useSocket";
 import { audioRefsAction, peersAction } from "../reducer/actions";
-import { CHANNEL } from "../config/constants";
 import { audioRefsReducer, peersReducer } from "../reducer";
+import { CHANNEL } from "../config/constants";
+import useSocket from "./useSocket";
 
 export default function useConnection(channelId) {
   const [audioRefs, audioRefsDispatch] = useReducer(audioRefsReducer, []);
@@ -13,73 +13,102 @@ export default function useConnection(channelId) {
   const myAudio = useRef();
 
   useEffect(() => {
-    const connectRTC = async () => {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: true,
-      });
+    try {
+      const connectRTC = async () => {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+          audio: true,
+        });
 
-      myAudio.current.srcObject = stream;
+        myAudio.current.srcObject = stream;
 
-      socket.emit(CHANNEL.JOIN, channelId);
+        socket.emit(CHANNEL.JOIN, channelId);
 
-      socket.on(CHANNEL.EXISTED_CALLEES, (callees) => {
-        console.log(callees, "콜러스 받음_caller");
-        const newPeers = callees.map((calleeId) => {
+        socket.on(CHANNEL.EXISTED_CALLEES, (callees) => {
+          const newPeers = callees.map((calleeId) => {
+            const peer = new Peer({
+              initiator: true,
+              trickle: false,
+              stream,
+            });
+
+            peer.on("signal", (signal) => {
+              if (signal.renegotiate || signal.transceiverRequest) {
+                return;
+              }
+
+              socket.emit(CHANNEL.OFFER, {
+                calleeId,
+                callerId: socket.id,
+                signal,
+              });
+            });
+
+            peer.id = calleeId;
+
+            peer.on("close", () => peer.destroy());
+            peer.on("error", (error) => {
+              /* eslint-disable-next-line no-console */
+              console.error(error);
+            });
+
+            return peer;
+          });
+
+          peersDispatch({ type: peersAction.INIT, payload: newPeers });
+        });
+
+        socket.on(CHANNEL.USER_JOIN, (payload) => {
           const peer = new Peer({
-            initiator: true,
+            initiator: false,
             trickle: false,
             stream,
           });
 
           peer.on("signal", (signal) => {
-            socket.emit(CHANNEL.OFFER, {
-              calleeId,
-              callerId: socket.id,
+            if (signal.renegotiate || signal.transceiverRequest) {
+              return;
+            }
+
+            socket.emit(CHANNEL.ANSWER, {
+              callerId: payload.callerId,
               signal,
             });
           });
 
-          peer.id = calleeId;
+          peer.signal(payload.signal);
 
-          return peer;
-        });
-
-        peersDispatch({ type: peersAction.INIT, payload: newPeers });
-      });
-
-      socket.on(CHANNEL.USER_JOIN, (payload) => {
-        const peer = new Peer({
-          initiator: false,
-          trickle: false,
-          stream,
-        });
-
-        peer.on("signal", (signal) => {
-          socket.emit(CHANNEL.ANSWER, {
-            callerId: payload.callerId,
-            signal,
+          peer.on("close", () => peer.destroy());
+          peer.on("error", (error) => {
+            /* eslint-disable-next-line no-console */
+            console.error(error);
           });
+
+          peer.id = payload.callerId;
+
+          peersDispatch({ type: peersAction.ADD, payload: peer });
         });
 
-        peer.id = payload.callerId;
-        peer.signal(payload.signal);
+        socket.on(CHANNEL.RETURN_SIGNAL, (payload) => {
+          peersDispatch({ type: peersAction.SIGNAL, payload });
+        });
 
-        peersDispatch({ type: peersAction.ADD, payload: peer });
-      });
+        socket.on(CHANNEL.USER_DISCONNECT, (targetId) => {
+          audioRefsDispatch({
+            type: audioRefsAction.DELETE,
+            payload: targetId,
+          });
 
-      socket.on(CHANNEL.RETURN_SIGNAL, (payload) => {
-        peersDispatch({ type: peersAction.SIGNAL, payload });
-      });
+          peersDispatch({ type: peersAction.DISCONNECT, payload: targetId });
+        });
+      };
 
-      socket.on(CHANNEL.USER_DISCONNECT, (targetId) => {
-        audioRefsDispatch({ type: audioRefsAction.DELETE, payload: targetId });
-        peersDispatch({ type: peersAction.DISCONNECT, payload: targetId });
-      });
-    };
-
-    if (socket) {
-      connectRTC();
+      if (socket) {
+        connectRTC();
+      }
+    } catch (error) {
+      /* eslint-disable-next-line no-console */
+      console.error(error);
     }
   }, [channelId, socket]);
 

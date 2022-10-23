@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import {
   FaMicrophoneAlt,
@@ -11,29 +11,18 @@ import { useNavigate, useParams } from "react-router-dom";
 import { theme } from "../../config/constants";
 import { audioRefsAction } from "../../reducer/actions";
 import useConnection from "../../hooks/useConnection";
-import Header from "../../components/Header";
-import AudioContainer from "../../components/AudioContainer";
+import Header from "../../components/common/Header";
+import AudioContainer from "../../components/Channel/AudioContainer";
+import handleStream from "../../util/handleStream";
 
 export default function ChannelPage() {
   const { channelId } = useParams();
   const [isOnMic, setIsOnMic] = useState(true);
   const [isMute, setIsMute] = useState(false);
-  const [volumeValue, setVolumeValue] = useState(0.5);
-  const volumeControlRef = useRef(null);
   const navigate = useNavigate();
 
   const { peers, myAudio, audioRefs, audioRefsDispatch } =
     useConnection(channelId);
-
-  const volumeOnChange = (e) => {
-    const numValue = Number(e.target.value);
-
-    setVolumeValue(numValue);
-    audioRefsDispatch({
-      type: audioRefsAction.VOLUME,
-      payload: numValue,
-    });
-  };
 
   const muteController = () => {
     if (!isMute) {
@@ -47,9 +36,9 @@ export default function ChannelPage() {
 
   const handleOnMic = () => {
     if (isOnMic) {
-      myAudio.current.pause();
+      handleStream.mute(myAudio.current.srcObject);
     } else {
-      myAudio.current.play();
+      handleStream.play(myAudio.current.srcObject);
     }
 
     setIsOnMic(!isOnMic);
@@ -88,16 +77,6 @@ export default function ChannelPage() {
           {micController}
           {volumeController}
         </ControllerItemWrapper>
-        <VolumeBar
-          type="range"
-          max={1}
-          min={0}
-          step={0.01}
-          value={volumeValue}
-          ref={volumeControlRef}
-          onChange={volumeOnChange}
-          disabled={isMute}
-        />
         <LeaveButton onClick={() => navigate("/", { replace: true })}>
           채널 떠나기
         </LeaveButton>
@@ -150,9 +129,9 @@ const ControllerWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 80px;
   width: 100%;
   height: 100%;
+  min-height: 80px;
   padding: 20px;
 `;
 
@@ -192,5 +171,3 @@ const LeaveButton = styled.button`
     @include transition(all 0.5s ease);
   }
 `;
-
-const VolumeBar = styled.input``;

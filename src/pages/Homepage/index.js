@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import styled from "styled-components";
-import Header from "../../components/Header";
+import Header from "../../components/common/Header";
 
 import { theme } from "../../config/constants";
 

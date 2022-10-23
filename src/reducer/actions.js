@@ -1,7 +1,6 @@
 export const audioRefsAction = {
   ADD: "add",
   DELETE: "delete",
-  VOLUME: "volume",
   MUTE: "mute",
   ON: "on",
 };

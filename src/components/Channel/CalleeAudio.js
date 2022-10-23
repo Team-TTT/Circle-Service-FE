@@ -1,9 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
-import { FaStreetView, FaUserAlt } from "react-icons/fa";
 import PropTypes from "prop-types";
 import Peer from "simple-peer";
-import { audioRefsAction } from "../reducer/actions";
+
+import { audioRefsAction } from "../../reducer/actions";
+import LoadingIcon from "../shared/LoadingUserIcon";
+import UserIcon from "../shared/UserIcon";
+import StyledAudio from "../shared/StyledAudio";
+import AudioWrapper from "../shared/AudioWrapper";
 
 export default function CalleeAudio({ peer, audioRefsDispatch }) {
   const audioRef = useRef();
@@ -12,7 +15,10 @@ export default function CalleeAudio({ peer, audioRefsDispatch }) {
   useEffect(() => {
     peer.on("stream", (stream) => {
       audioRef.current.srcObject = stream;
-      audioRef.current.play();
+      audioRef.current.play().catch((error) => {
+        /* eslint-disable-next-line no-console */
+        console.error(error);
+      });
 
       const audioRefInfo = {
         audioRef,
@@ -36,22 +42,3 @@ CalleeAudio.propTypes = {
   peer: PropTypes.instanceOf(Peer).isRequired,
   audioRefsDispatch: PropTypes.func.isRequired,
 };
-
-const AudioWrapper = styled.div`
-  position: relative;
-`;
-
-export const StyledAudio = styled.video`
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 30px;
-`;
-
-export const UserIcon = styled(FaUserAlt)`
-  font-size: 50px;
-`;
-
-const LoadingIcon = styled(FaStreetView)`
-  font-size: 30px;
-`;
