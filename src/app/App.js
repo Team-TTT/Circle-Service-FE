@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 
-import ServiceLayOut from "../layout/ServiceLayOut/index";
+import ServiceLayOut from "../layout/ServiceLayOut";
 import HomePage from "../pages/Homepage";
 import ChannelPage from "../pages/ChannelPage";
 

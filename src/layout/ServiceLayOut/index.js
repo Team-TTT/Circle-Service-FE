@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
-import { theme } from "../../config/constants";
+
+import theme from "../../config/constants/theme";
 
 export default function ServiceLayOut() {
-  const [projectInfo, setProjectInfo] = useState({});
+  const [projectInfo, setProjectInfo] = useState();
 
   useEffect(() => {
-    const getProject = async () => {
-      const response = await fetch("/mockData/project.json");
-      const data = await response.json();
-      setProjectInfo(data);
-    };
-
-    getProject();
+    fetch("/mockData/project.json")
+      .then((res) => res.json())
+      .then((data) => setProjectInfo(data));
   }, []);
 
   return (
     <Container>
-      {projectInfo.title ? <Outlet context={{ projectInfo }} /> : <Loading />}
+      {projectInfo?.title ? <Outlet context={{ projectInfo }} /> : <Loading />}
     </Container>
   );
 }
