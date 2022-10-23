@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-else-return */
 import { audioRefsAction, peersAction } from "./actions";
 
@@ -28,6 +29,35 @@ export const audioRefsReducer = (state, { type, payload }) => {
     return [...state, payload];
   } else if (type === audioRefsAction.DELETE) {
     return state.filter((refInfo) => refInfo.id !== payload);
+  } else if (type === audioRefsAction.VOLUME) {
+    console.log("VOLUME");
+    state
+      .map((audioRefInfo) => audioRefInfo.audioRef.current)
+      .forEach((audioEl) => {
+        audioEl.volume = payload;
+      });
+
+    return state;
+  } else if (type === audioRefsAction.MUTE) {
+    console.log("MUTE");
+
+    state
+      .map((audioRefInfo) => audioRefInfo.audioRef.current)
+      .forEach((audioEl) => {
+        audioEl.pause();
+      });
+
+    return state;
+  } else if (type === audioRefsAction.ON) {
+    console.log("ON");
+
+    state
+      .map((audioRefInfo) => audioRefInfo.audioRef.current)
+      .forEach((audioEl) => {
+        audioEl.play();
+      });
+
+    return state;
   } else {
     return state;
   }

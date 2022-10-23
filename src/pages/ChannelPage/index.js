@@ -8,14 +8,16 @@ import {
 } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 
-import Header from "../../components/Header";
 import { theme } from "../../config/constants";
-import AudioContainer from "../../components/AudioContainer";
+import { audioRefsAction } from "../../reducer/actions";
 import useConnection from "../../hooks/useConnection";
+import Header from "../../components/Header";
+import AudioContainer from "../../components/AudioContainer";
 
 export default function ChannelPage() {
   const { channelId } = useParams();
   const [isOnMic, setIsOnMic] = useState(true);
+  const [isMute, setIsMute] = useState(false);
   const [volumeValue, setVolumeValue] = useState(0.5);
   const volumeControlRef = useRef(null);
   const navigate = useNavigate();
@@ -23,15 +25,33 @@ export default function ChannelPage() {
   const { peers, myAudio, audioRefs, audioRefsDispatch } =
     useConnection(channelId);
 
-  console.log(audioRefs);
-
   const volumeOnChange = (e) => {
-    setVolumeValue(Number(e.target.value));
+    const numValue = Number(e.target.value);
+
+    setVolumeValue(numValue);
+    audioRefsDispatch({
+      type: audioRefsAction.VOLUME,
+      payload: numValue,
+    });
   };
 
-  const muteVolume = () => {};
+  const muteController = () => {
+    if (!isMute) {
+      audioRefsDispatch({ type: audioRefsAction.MUTE });
+    } else {
+      audioRefsDispatch({ type: audioRefsAction.ON });
+    }
+
+    setIsMute(!isMute);
+  };
 
   const handleOnMic = () => {
+    if (isOnMic) {
+      myAudio.current.pause();
+    } else {
+      myAudio.current.play();
+    }
+
     setIsOnMic(!isOnMic);
   };
 
@@ -41,12 +61,11 @@ export default function ChannelPage() {
     <OffMicIcon onClick={handleOnMic} />
   );
 
-  const volumeController =
-    volumeValue === 0 ? (
-      <OffVolumeIcon onClick={muteVolume} />
-    ) : (
-      <OnVolumeIcon onClick={muteVolume} />
-    );
+  const volumeController = isMute ? (
+    <OffVolumeIcon onClick={muteController} />
+  ) : (
+    <OnVolumeIcon onClick={muteController} />
+  );
 
   return (
     <Container>
@@ -77,8 +96,11 @@ export default function ChannelPage() {
           value={volumeValue}
           ref={volumeControlRef}
           onChange={volumeOnChange}
+          disabled={isMute}
         />
-        <LeaveButton onClick={() => navigate("/")}>채널 떠나기</LeaveButton>
+        <LeaveButton onClick={() => navigate("/", { replace: true })}>
+          채널 떠나기
+        </LeaveButton>
       </ControllerWrapper>
     </Container>
   );
