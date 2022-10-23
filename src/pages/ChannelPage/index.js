@@ -11,7 +11,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { theme } from "../../config/constants";
 import { audioRefsAction } from "../../reducer/actions";
 import useConnection from "../../hooks/useConnection";
-import Header from "../../components/common/Header";
 import AudioContainer from "../../components/Channel/AudioContainer";
 import handleStream from "../../util/handleStream";
 
@@ -58,7 +57,6 @@ export default function ChannelPage() {
 
   return (
     <Container>
-      <Header />
       <ChannelInfoWrapper>
         <ChannelInfo>
           <ChannelTitle># 바코</ChannelTitle>
@@ -129,7 +127,6 @@ const ControllerWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
   height: 100%;
   min-height: 80px;
   padding: 20px;

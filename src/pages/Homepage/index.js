@@ -1,34 +1,19 @@
 import React from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import styled from "styled-components";
-import { IoMdCloseCircleOutline } from "react-icons/io";
 
 import theme from "../../config/constants/theme";
 
 export default function HomePage() {
   const { projectInfo } = useOutletContext();
 
-  const handleCloseButton = () => {
-    const circleButton = document.getElementById("core-circle");
-    const circleService = document.getElementById("iframe-circle");
-
-    circleButton.style.opacity = 1;
-    circleService.style.visibility = "hidden";
-  };
-
   return (
     <Container>
-      <CloseButton onClick={handleCloseButton}>
-        <CloseIcon />
-      </CloseButton>
-      <DescriptionWrapper>
-        <Title>{projectInfo && projectInfo.title}</Title>
-        <FixedDescription>
-          환영합니다
-          <br />
-          채널 버튼을 클릭하여 대화에 참여해보세요.
-        </FixedDescription>
-      </DescriptionWrapper>
+      <FixedDescription>
+        환영합니다
+        <br />
+        채널 버튼을 클릭하여 대화에 참여해보세요.
+      </FixedDescription>
       <ChannelsWrapper>
         {projectInfo.channels
           .filter((channel) => channel.isActive)
@@ -50,40 +35,18 @@ export default function HomePage() {
 }
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 100%;
   height: 100%;
   background-color: ${theme.skyBlue};
 `;
 
-const CloseButton = styled.button`
-  position: absolute;
-  right: 0;
-  top: 0;
-  padding: 0;
-  border: none;
-  background-color: transparent;
-`;
-
-const CloseIcon = styled(IoMdCloseCircleOutline)`
-  position: relative;
-  margin: 15px;
-  font-size: 30px;
-  cursor: pointer;
-`;
-
-const Title = styled.h1`
-  padding-bottom: 10px;
-  font-size: 30px;
-`;
-
-const DescriptionWrapper = styled.div`
-  padding: 10px;
-`;
-
 const FixedDescription = styled.p`
-  margin-bottom: 10px;
   font-size: 20px;
   line-height: 30px;
+  margin: 0px auto;
 `;
 
 const ChannelsWrapper = styled.div`

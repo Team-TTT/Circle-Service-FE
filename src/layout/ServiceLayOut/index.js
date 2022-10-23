@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import styled from "styled-components";
+import Header from "../../components/common/Header";
 
 import theme from "../../config/constants/theme";
 
 export default function ServiceLayOut() {
   const [projectInfo, setProjectInfo] = useState();
+  const { channelId } = useParams();
 
   useEffect(() => {
     fetch("/mockData/project.json")
@@ -14,8 +16,15 @@ export default function ServiceLayOut() {
   }, []);
 
   return (
-    <Container>
-      {projectInfo?.title ? <Outlet context={{ projectInfo }} /> : <Loading />}
+    <Container color={channelId ? theme.white : theme.skyBlue}>
+      {projectInfo?.title ? (
+        <>
+          <Header title={projectInfo.title} />
+          <Outlet context={{ projectInfo }} />
+        </>
+      ) : (
+        <Loading />
+      )}
     </Container>
   );
 }
@@ -23,10 +32,11 @@ export default function ServiceLayOut() {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
+  width: calc(100% - 20px);
+  height: calc(100% - 20px);
+  padding: 10px;
   border-radius: 30px;
-  background-color: ${theme.skyBlue};
+  background-color: ${(props) => props.color};
   font-size: 16px;
 `;
 

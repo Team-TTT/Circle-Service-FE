@@ -1,41 +1,58 @@
 import React from "react";
-import { IoMdCloseCircleOutline } from "react-icons/io";
 import styled from "styled-components";
+import { IoMdCloseCircleOutline } from "react-icons/io";
+import { useParams } from "react-router-dom";
+import PropTypes from "prop-types";
 
-export default function Header() {
+import { theme } from "../../config/constants";
+
+export default function Header({ title }) {
+  const { channelId } = useParams();
+
+  const handleCloseButton = () => {
+    const circleButton = document.getElementById("core-circle");
+    const circleService = document.getElementById("iframe-circle");
+
+    circleButton.style.opacity = 1;
+    circleService.style.visibility = "hidden";
+  };
+
   return (
-    <Container>
-      <Title>Vanila</Title>
-      <CloseButton>
+    <Container color={channelId ? theme.white : theme.skyBlue}>
+      <CloseButton onClick={handleCloseButton}>
         <CloseIcon />
       </CloseButton>
+      <Title>{title}</Title>
     </Container>
   );
 }
 
+Header.propTypes = {
+  title: PropTypes.string.isRequired,
+};
+
 const Container = styled.div`
-  display: flex;
-  height: 2.75em;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  font-size: 32px;
+  background-color: ${(props) => props.color};
 `;
 
-const Title = styled.h3``;
-
 const CloseButton = styled.button`
-  overflow: visible;
-  top: 0;
+  position: absolute;
   right: 0;
+  top: 0;
   padding: 0;
   border: none;
-  border-radius: 0;
-  background: inherit;
-  box-shadow: none;
-  cursor: pointer;
+  background-color: transparent;
 `;
 
 const CloseIcon = styled(IoMdCloseCircleOutline)`
-  font-size: 32px;
+  position: relative;
+  margin: 15px;
+  font-size: 30px;
+  cursor: pointer;
+`;
+
+const Title = styled.h1`
+  margin-left: 5px;
+  padding-bottom: 10px;
+  font-size: 30px;
 `;

@@ -38,16 +38,15 @@ const GlobalStyle = createGlobalStyle`
     min-height: 520px;
     max-height: 680px;
     margin: 15px;
+    -webkit-box-shadow: 0px 10px 13px -7px #000000, -1px -3px 12px 1px rgba(148,148,148,0.39); 
+    box-shadow: 0px 10px 13px -7px #000000, -1px -3px 12px 1px rgba(148,148,148,0.39);
     border-radius: 30px;
+    overflow: hidden;
   }
 
   #root {
     width: 100%;
     height: 100%;
-    border-radius: 30px;
-    padding: 10px;
-    background-color: ${theme.skyBlue};
-
   }
 
   .circle-service {
