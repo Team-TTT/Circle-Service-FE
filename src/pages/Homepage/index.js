@@ -3,7 +3,7 @@ import { Link, useOutletContext } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../../components/Header";
 
-import theme from "../../config/constants/theme";
+import { theme } from "../../config/constants";
 
 export default function HomePage() {
   const { projectInfo } = useOutletContext();

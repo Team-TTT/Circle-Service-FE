@@ -1,26 +1,52 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import {
-  FaUserAlt,
   FaMicrophoneAlt,
   FaMicrophoneAltSlash,
   FaVolumeUp,
   FaVolumeMute,
 } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import Header from "../../components/Header";
-import theme from "../../config/constants/theme";
+import { theme } from "../../config/constants";
+import AudioContainer from "../../components/AudioContainer";
+import useConnection from "../../hooks/useConnection";
 
 export default function ChannelPage() {
+  const { channelId } = useParams();
   const [isOnMic, setIsOnMic] = useState(true);
-  const [isOnVolume, setIsOnVolume] = useState(true);
-
+  const [volumeValue, setVolumeValue] = useState(0.5);
+  const volumeControlRef = useRef(null);
   const navigate = useNavigate();
 
-  const micController = isOnMic ? <OnMicIcon /> : <OffMicIcon />;
-  const volumeController = isOnVolume ? <OnVolumeIcon /> : <OffVolumeIcon />;
+  const { peers, myAudio, audioRefs, audioRefsDispatch } =
+    useConnection(channelId);
+
+  console.log(audioRefs);
+
+  const volumeOnChange = (e) => {
+    setVolumeValue(Number(e.target.value));
+  };
+
+  const muteVolume = () => {};
+
+  const handleOnMic = () => {
+    setIsOnMic(!isOnMic);
+  };
+
+  const micController = isOnMic ? (
+    <OnMicIcon onClick={handleOnMic} />
+  ) : (
+    <OffMicIcon onClick={handleOnMic} />
+  );
+
+  const volumeController =
+    volumeValue === 0 ? (
+      <OffVolumeIcon onClick={muteVolume} />
+    ) : (
+      <OnVolumeIcon onClick={muteVolume} />
+    );
 
   return (
     <Container>
@@ -28,12 +54,14 @@ export default function ChannelPage() {
       <ChannelInfoWrapper>
         <ChannelInfo>
           <ChannelTitle># 바코</ChannelTitle>
-          <UserWrapper>
-            <UserIcon />
-            <UserIcon />
-            <UserIcon />
-          </UserWrapper>
-          <ChannelDescription> 몇명이 접속중이냐</ChannelDescription>
+          <AudioContainer
+            myAudio={myAudio}
+            peers={peers}
+            audioRefsDispatch={audioRefsDispatch}
+          />
+          <ChannelDescription>
+            {audioRefs.length + 1}명 접속중 입니다
+          </ChannelDescription>
         </ChannelInfo>
       </ChannelInfoWrapper>
       <ControllerWrapper>
@@ -41,6 +69,15 @@ export default function ChannelPage() {
           {micController}
           {volumeController}
         </ControllerItemWrapper>
+        <VolumeBar
+          type="range"
+          max={1}
+          min={0}
+          step={0.01}
+          value={volumeValue}
+          ref={volumeControlRef}
+          onChange={volumeOnChange}
+        />
         <LeaveButton onClick={() => navigate("/")}>채널 떠나기</LeaveButton>
       </ControllerWrapper>
     </Container>
@@ -79,18 +116,6 @@ const ChannelTitle = styled.p`
   align-items: center;
 `;
 
-const UserWrapper = styled.div`
-  flex: 1;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 0px 10px;
-`;
-
-const UserIcon = styled(FaUserAlt)`
-  font-size: 50px;
-`;
-
 const ChannelDescription = styled.p`
   flex: 1;
   display: flex;
@@ -112,7 +137,7 @@ const ControllerWrapper = styled.div`
 const ControllerItemWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 100px;
+  width: 80px;
 `;
 
 const OnMicIcon = styled(FaMicrophoneAlt)`
@@ -145,3 +170,5 @@ const LeaveButton = styled.button`
     @include transition(all 0.5s ease);
   }
 `;
+
+const VolumeBar = styled.input``;
