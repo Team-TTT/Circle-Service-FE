@@ -10,9 +10,11 @@ export default function ServiceLayOut() {
   const { channelId } = useParams();
 
   useEffect(() => {
-    window.addEventListener("message", (event) => {
-      if (event.data.functionName) {
-        setProjectInfo(event.data.responseData);
+    window.addEventListener("message", ({ data }) => {
+      if (data.functionName) {
+        console.log(data.responseData);
+        const value = JSON.parse(data.responseData);
+        setProjectInfo(value);
       }
     });
   }, []);
