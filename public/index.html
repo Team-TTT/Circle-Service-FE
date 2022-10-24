@@ -8,24 +8,6 @@
   <title>Document</title>
 </head>
 <body>
-  <div id="core-circle">
-    <span class="material-symbols-outlined">
-      headset_mic
-    </span>
-  </div>
-  <div id="iframe-circle" style="visibility: hidden">
-    <div id="root" className="circle-service"></div>
-  </div>
+  <div id="root" className="circle-service"></div>
 </body>
-  <script>
-    const circleButton = document.getElementById("core-circle");
-
-    circleButton.addEventListener("click", () => {
-      const circleButton = document.getElementById("core-circle");
-      const circleService = document.getElementById("iframe-circle");
-
-      circleButton.style.opacity = 0;
-      circleService.style.visibility = "visible";
-    });
-  </script>
 </html>

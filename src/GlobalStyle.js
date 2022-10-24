@@ -14,7 +14,7 @@ const GlobalStyle = createGlobalStyle`
     justify-content: center;
     position: fixed;
     bottom: 25px;
-    left: 15px;
+    left: 20px;
     width: 60px;
     height: 60px;
     border: 3px solid black;
@@ -32,7 +32,7 @@ const GlobalStyle = createGlobalStyle`
   #iframe-circle {
     position: fixed;
     bottom: 25px;
-    left: 25px;
+    left: 40px;
     width: 370px;
     height: 250px;
     min-height: 520px;
@@ -42,6 +42,7 @@ const GlobalStyle = createGlobalStyle`
     box-shadow: 0px 10px 13px -7px #000000, -1px -3px 12px 1px rgba(148,148,148,0.39);
     border-radius: 30px;
     overflow: hidden;
+    z-index: 100000;
   }
 
   #root {
