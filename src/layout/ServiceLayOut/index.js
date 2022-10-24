@@ -9,31 +9,12 @@ export default function ServiceLayOut() {
   const [projectInfo, setProjectInfo] = useState({});
   const { channelId } = useParams();
 
-  // useEffect(() => {
-  //   window.addEventListener("message", (event) => {
-  //     if (event.data.functionName === "showServiceProject") {
-  //       setProjectInfo(event.data.params);
-  //     }
-  //   });
-  // }, []);
   useEffect(() => {
-    const projectId = "6353fa78f312cdeb9b5994d8";
-    const data = { secretKey: "b660715ad7ebb171aa0ada977bc124d3" };
-    // 서버 배포후 url로 수정할 예정
-    const getServiceProject = async () => {
-      const response = await fetch(
-        `http://localhost:8080/projects/${projectId}/service/auth`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
-      setProjectInfo(response);
-    };
-    getServiceProject();
+    window.addEventListener("message", (event) => {
+      if (event.data.functionName) {
+        setProjectInfo(event.data.responseData);
+      }
+    });
   }, []);
   // 에러가 나면 iframe 빈 하늘색 창이 보임 -> 이것도 안 보이게 해야 함.
   return (
