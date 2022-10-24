@@ -25,7 +25,7 @@ export default function ServiceLayOut() {
         `http://localhost:8080/projects/${projectId}/service/auth`,
         {
           method: "POST",
-          body: JSON.stringify(secretKey),
+          body: JSON.stringify({ secretKey }),
         }
       );
       setProjectInfo(response);
