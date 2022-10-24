@@ -24,7 +24,9 @@ export default function ServiceLayOut() {
           body: JSON.stringify(data),
         }
       );
-      setProjectInfo(response.json());
+
+      const result = await response.json();
+      setProjectInfo(result);
     };
     getServiceProject();
   }, []);
