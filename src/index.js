@@ -16,7 +16,7 @@ const rootDiv = document.querySelector("#root");
 const root = ReactDOM.createRoot(rootDiv);
 
 root.render(
-  <BrowserRouter basename="https://team-ttt.github.io/Circle-Service-FE">
+  <BrowserRouter basename={process.env.PUBLIC_URL}>
     <GlobalStyle />
     <App />
   </BrowserRouter>

@@ -1,0 +1,51 @@
+{
+  "_id": "634e852861e9f527378a9d32",
+  "secret_key": {
+    "iv": "6d3df1de7eb51ab5183b47b7b82303c0",
+    "key": "6c8816e6435a979ca410ddc4446ef0fc6ea07dcad00ebbe70b4f3b421aed4298",
+    "_id": {
+      "$oid": "634e852861e9f527378a9d34"
+    }
+  },
+  "owner": {
+    "$oid": "634e3337539ba4bcdee7232d"
+  },
+  "title": "테스트 프로젝트",
+  "channels": [
+    {
+      "_id": "634fab09d69eec52775b6486",
+      "title": "테스트 채널 제목",
+      "description": "webRTC 어떡하지",
+      "isActive": true
+    },
+    {
+      "_id": "634fab09d69eec52775b6487",
+      "title": "테스트 채널2",
+      "description": "webRTC 어떡하지2",
+      "isActive": true
+    },
+    {
+      "_id": "634fab09d69eec52775b6481",
+      "title": "테스트 채널 제목",
+      "description": "webRTC 어떡하지",
+      "isActive": true
+    },
+    {
+      "_id": "634fab09d69eec52775b6482",
+      "title": "테스트 채널2",
+      "description": "webRTC 어떡하지2",
+      "isActive": true
+    }
+  ],
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1666090280004"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1666090280004"
+    }
+  },
+  "__v": 0
+}

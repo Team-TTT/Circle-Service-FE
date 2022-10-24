@@ -1,19 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Outlet, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../../components/common/Header";
 
+import PROJECT_REPOS from "./mockData/project.json";
 import theme from "../../config/constants/theme";
 
 export default function ServiceLayOut() {
-  const [projectInfo, setProjectInfo] = useState();
+  const projectInfo = PROJECT_REPOS;
   const { channelId } = useParams();
-
-  useEffect(() => {
-    fetch("/mockData/project.json")
-      .then((res) => res.json())
-      .then((data) => setProjectInfo(data));
-  }, []);
 
   return (
     <Container color={channelId ? theme.white : theme.skyBlue}>

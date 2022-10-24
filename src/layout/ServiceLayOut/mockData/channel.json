@@ -1,0 +1,26 @@
+[
+  {
+    "_id": "634fab09d69eec52775b6486",
+    "title": "테스트 채널 제목",
+    "description": "webRTC 어떡하지",
+    "isActive": true
+  },
+  {
+    "_id": "634fab09d69eec52775b6487",
+    "title": "테스트 채널2",
+    "description": "webRTC 어떡하지2",
+    "isActive": true
+  },
+  {
+    "_id": "634fab09d69eec52775b6481",
+    "title": "테스트 채널 제목",
+    "description": "webRTC 어떡하지",
+    "isActive": true
+  },
+  {
+    "_id": "634fab09d69eec52775b6482",
+    "title": "테스트 채널2",
+    "description": "webRTC 어떡하지2",
+    "isActive": true
+  }
+]
