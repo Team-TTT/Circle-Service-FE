@@ -32,8 +32,8 @@ export default function ServiceLayOut() {
       setProjectInfo(response);
     };
     getServiceProject();
-  }, [projectInfo]);
-
+  }, []);
+  // 에러가 나면 iframe 빈 하늘색 창이 보임 -> 이것도 안 보이게 해야 함.
   return (
     <Container color={channelId ? theme.white : theme.skyBlue}>
       {projectInfo?.title ? (
