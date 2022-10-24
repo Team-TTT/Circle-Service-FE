@@ -18,7 +18,7 @@ export default function ServiceLayOut() {
   // }, []);
   useEffect(() => {
     const projectId = "6353fa78f312cdeb9b5994d8";
-    const secretKey = "b660715ad7ebb171aa0ada977bc124d3";
+    const data = { secretKey: "b660715ad7ebb171aa0ada977bc124d3" };
     // 서버 배포후 url로 수정할 예정
     const getServiceProject = async () => {
       const response = await fetch(
@@ -28,7 +28,7 @@ export default function ServiceLayOut() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ secretKey }),
+          body: JSON.stringify(data),
         }
       );
       setProjectInfo(response);
