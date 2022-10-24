@@ -3,19 +3,35 @@ import { Outlet, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../../components/common/Header";
 
-// import PROJECT_REPOS from "./mockData/project.json";
 import theme from "../../config/constants/theme";
 
 export default function ServiceLayOut() {
   const [projectInfo, setProjectInfo] = useState({});
   const { channelId } = useParams();
 
+  // useEffect(() => {
+  //   window.addEventListener("message", (event) => {
+  //     if (event.data.functionName === "showServiceProject") {
+  //       setProjectInfo(event.data.params);
+  //     }
+  //   });
+  // }, [projectInfo]);
   useEffect(() => {
-    window.addEventListener("message", (event) => {
-      if (event.data.functionName === "showServiceProject") {
-        setProjectInfo(event.data.params);
-      }
-    });
+    const projectId = "6353fa78f312cdeb9b5994d8";
+    const secretKey = "b660715ad7ebb171aa0ada977bc124d3";
+    const data = { projectId, secretKey };
+    // 서버 배포후 url로 수정할 예정
+    const getServiceProject = async () => {
+      const response = await fetch(
+        `http://localhost:8080/projects/${projectId}/service/auth`,
+        {
+          method: "POST",
+          body: JSON.stringify(data),
+        }
+      );
+      setProjectInfo(response);
+    };
+    getServiceProject();
   }, [projectInfo]);
 
   return (
