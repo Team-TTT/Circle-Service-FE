@@ -31,7 +31,7 @@ export default function useConnection(channelId) {
               trickle: false,
               stream,
             });
-            peer._debug = console.log;
+
             peer.on("signal", (signal) => {
               if (signal.renegotiate || signal.transceiverRequest) {
                 return;
@@ -47,11 +47,6 @@ export default function useConnection(channelId) {
             peer.id = calleeId;
 
             peer.on("close", () => peer.destroy());
-            peer.on("error", (error) => {
-              /* eslint-disable-next-line no-console */
-              console.error(error);
-              console.log("🔥", error);
-            });
 
             return peer;
           });

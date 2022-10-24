@@ -23,8 +23,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prepare": "husky install",
-    "heroku-postbuild": "npm run build"
+    "prepare": "husky install"
   },
   "engines": {
     "node": "16.18.0",
@@ -45,7 +44,7 @@
   "lint-staged": {
     "*.js": "eslint --fix"
   },
-  "homepage": "https://team-ttt.github.io/Circle-Service-FE",
+  "homepage": "https://vaco-team-ttt-circle.netlify.app",
   "devDependencies": {
     "eslint": "^8.25.0",
     "eslint-config-airbnb": "^19.0.4",
