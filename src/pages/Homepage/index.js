@@ -22,10 +22,8 @@ export default function HomePage() {
               <ChannelItem
                 to={`/projects/${projectInfo._id}/channels/${channel._id}`}
               >
-                <ChannelTitle># General</ChannelTitle>
-                <ChannelDescription>
-                  자유롭게 대화를 나눠보세요
-                </ChannelDescription>
+                <ChannelTitle>{channel.title}</ChannelTitle>
+                <ChannelDescription>{channel.description}</ChannelDescription>
               </ChannelItem>
             </ChannelBox>
           ))}
