@@ -12,8 +12,6 @@ export default function ServiceLayOut() {
   const userSecretKey = "b660715ad7ebb171aa0ada977bc124d3";
 
   useEffect(() => {
-    // 서버 배포후 url로 수정할 예정
-    // eslint-disable-next-line no-unused-vars
     const getServiceProject = async (projectId, secretKey) => {
       const response = await fetch(
         `http://localhost:8080/projects/${projectId}/service/auth`,
@@ -22,7 +20,7 @@ export default function ServiceLayOut() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(secretKey),
+          body: JSON.stringify({ secretKey }),
         }
       );
       const result = await response.json();
@@ -50,6 +48,7 @@ const Container = styled.div`
   width: calc(100% - 20px);
   height: calc(100% - 20px);
   padding: 10px;
+  border: none;
   border-radius: 30px;
   background-color: ${(props) => props.color};
   font-size: 16px;
