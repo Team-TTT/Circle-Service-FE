@@ -41,10 +41,9 @@ const Container = styled.div`
 `;
 
 const FixedDescription = styled.p`
-  margin-bottom: 10px;
+  margin: 0 auto;
   font-size: 20px;
   line-height: 30px;
-  margin: 0px auto;
 `;
 
 const ChannelsWrapper = styled.div`
