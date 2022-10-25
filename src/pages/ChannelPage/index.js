@@ -23,7 +23,7 @@ export default function ChannelPage() {
   const { peers, myAudio, audioRefs, audioRefsDispatch, err } =
     useConnection(channelId);
 
-  const muteController = () => {
+  const handleOnMute = () => {
     if (audioRefs.length === 0) {
       return;
     }
@@ -54,9 +54,9 @@ export default function ChannelPage() {
   );
 
   const volumeController = isMute ? (
-    <OffVolumeIcon onClick={muteController} />
+    <OffVolumeIcon onClick={handleOnMute} />
   ) : (
-    <OnVolumeIcon onClick={muteController} />
+    <OnVolumeIcon onClick={handleOnMute} />
   );
 
   return (
