@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { CHANNEL } from "../config/constants";
 
 import socketFactory from "../util/socketFactory";
@@ -7,12 +8,17 @@ const { getSocket } = socketFactory;
 
 export default function useSocket() {
   const [socket, setSocket] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!socket) {
       setSocket(getSocket());
     } else {
       socket.connect();
+
+      socket.io.on("error", () => {
+        navigate("/error");
+      });
     }
 
     return () => {
@@ -25,7 +31,7 @@ export default function useSocket() {
         socket.disconnect();
       }
     };
-  }, [socket]);
+  }, [navigate, socket]);
 
   return socket;
 }

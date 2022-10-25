@@ -14,7 +14,11 @@ export const peersReducer = (state, { type, payload }) => {
 
   if (type === peersAction.DISCONNECT) {
     const targetPeer = state.find((peer) => peer.id === payload);
-    targetPeer?.destroy();
+
+    if (targetPeer) {
+      targetPeer.removeAllListeners("close");
+      targetPeer.destroy();
+    }
 
     return state.filter((peer) => peer.id !== payload);
   }

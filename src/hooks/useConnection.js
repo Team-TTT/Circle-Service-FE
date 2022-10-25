@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useRef } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import Peer from "simple-peer";
 
 import { audioRefsAction, peersAction } from "../reducer/actions";
@@ -9,14 +9,14 @@ import useSocket from "./useSocket";
 export default function useConnection(channelId) {
   const [audioRefs, audioRefsDispatch] = useReducer(audioRefsReducer, []);
   const [peers, peersDispatch] = useReducer(peersReducer, []);
+  const [err, setErr] = useState(null);
   const socket = useSocket();
   const myAudio = useRef();
 
   useEffect(() => {
-    try {
-      const connectRTC = async () => {
+    const connectRTC = async () => {
+      try {
         const stream = await navigator.mediaDevices.getUserMedia({
-          video: true,
           audio: true,
         });
 
@@ -46,7 +46,11 @@ export default function useConnection(channelId) {
 
             peer.id = calleeId;
 
-            peer.on("close", () => peer.destroy());
+            peer.on("close", () => {
+              peer.removeAllListeners("close");
+              peer.destroy();
+            });
+
             peer.on("error", (error) => {
               /* eslint-disable-next-line no-console */
               console.error(error);
@@ -78,7 +82,11 @@ export default function useConnection(channelId) {
 
           peer.signal(payload.signal);
 
-          peer.on("close", () => peer.destroy());
+          peer.on("close", () => {
+            peer.removeAllListeners("close");
+            peer.destroy();
+          });
+
           peer.on("error", (error) => {
             /* eslint-disable-next-line no-console */
             console.error(error);
@@ -101,14 +109,13 @@ export default function useConnection(channelId) {
 
           peersDispatch({ type: peersAction.DISCONNECT, payload: targetId });
         });
-      };
-
-      if (socket) {
-        connectRTC();
+      } catch (error) {
+        setErr("미디어 장치가 없습니다");
       }
-    } catch (error) {
-      /* eslint-disable-next-line no-console */
-      console.error(error);
+    };
+
+    if (socket) {
+      connectRTC();
     }
   }, [channelId, socket]);
 
@@ -117,5 +124,6 @@ export default function useConnection(channelId) {
     myAudio,
     audioRefs,
     audioRefsDispatch,
+    err,
   };
 }
