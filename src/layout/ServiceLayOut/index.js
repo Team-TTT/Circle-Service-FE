@@ -8,8 +8,8 @@ import theme from "../../config/constants/theme";
 export default function ServiceLayOut() {
   const [projectInfo, setProjectInfo] = useState({});
   const { channelId } = useParams();
-  const userProjectId = "6353fa78f312cdeb9b5994d8";
-  const userSecretKey = "b660715ad7ebb171aa0ada977bc124d3";
+  // const userProjectId = "6353fa78f312cdeb9b5994d8";
+  // const userSecretKey = "b660715ad7ebb171aa0ada977bc124d3";
 
   useEffect(() => {
     const getServiceProject = async (projectId, secretKey) => {
@@ -26,8 +26,16 @@ export default function ServiceLayOut() {
       const result = await response.json();
       setProjectInfo(result);
     };
-    getServiceProject(userProjectId, userSecretKey);
+
+    window.addEventListener("message", (event) => {
+      console.log("🔥", event.data);
+      const { projectId, secretKey } = event.data;
+      if (projectId && secretKey) {
+        getServiceProject(projectId, secretKey);
+      }
+    });
   }, []);
+
   return (
     <Container color={channelId ? theme.white : theme.skyBlue}>
       {projectInfo?.title ? (
