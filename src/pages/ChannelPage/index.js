@@ -56,7 +56,10 @@ export default function ChannelPage() {
   const volumeController = isMute ? (
     <OffVolumeIcon onClick={handleOnMute} />
   ) : (
-    <OnVolumeIcon onClick={handleOnMute} isActive={!!audioRefs.length} />
+    <OnVolumeIcon
+      onClick={handleOnMute}
+      color={audioRefs.length ? "black" : `${theme.gray}`}
+    />
   );
 
   return (
@@ -161,7 +164,7 @@ const OffMicIcon = styled(FaMicrophoneAltSlash)`
 `;
 
 const OnVolumeIcon = styled(FaVolumeUp)`
-  opacity: ${(props) => (props.isActive ? 1 : 0.4)};
+  color: ${(props) => props.color};
   font-size: 32px;
 `;
 
