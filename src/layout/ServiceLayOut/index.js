@@ -8,12 +8,12 @@ import theme from "../../config/constants/theme";
 export default function ServiceLayOut() {
   const [projectInfo, setProjectInfo] = useState({});
   const { channelId } = useParams();
+  const userProjectId = "6353fa78f312cdeb9b5994d8";
+  const userSecretKey = "b660715ad7ebb171aa0ada977bc124d3";
 
   useEffect(() => {
     // 서버 배포후 url로 수정할 예정
     // eslint-disable-next-line no-unused-vars
-    const userProjectId = "6353fa78f312cdeb9b5994d8";
-    const userSecretKey = "b660715ad7ebb171aa0ada977bc124d3";
     const getServiceProject = async (projectId, secretKey) => {
       const response = await fetch(
         `http://localhost:8080/projects/${projectId}/service/auth`,
@@ -29,7 +29,7 @@ export default function ServiceLayOut() {
       setProjectInfo(result);
     };
     getServiceProject(userProjectId, userSecretKey);
-  }, [projectInfo]);
+  }, []);
   return (
     <Container color={channelId ? theme.white : theme.skyBlue}>
       {projectInfo?.title ? (
