@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
-const StyledAudio = styled.video`
+const StyledAudio = styled.audio`
+  display: hidden;
   position: absolute;
   top: 0px;
   left: 0px;
-  width: 30px;
 `;
 
 export default StyledAudio;

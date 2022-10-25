@@ -20,10 +20,14 @@ export default function ChannelPage() {
   const [isMute, setIsMute] = useState(false);
   const navigate = useNavigate();
 
-  const { peers, myAudio, audioRefs, audioRefsDispatch } =
+  const { peers, myAudio, audioRefs, audioRefsDispatch, err } =
     useConnection(channelId);
 
-  const muteController = () => {
+  const handleOnMute = () => {
+    if (audioRefs.length === 0) {
+      return;
+    }
+
     if (!isMute) {
       audioRefsDispatch({ type: audioRefsAction.MUTE });
     } else {
@@ -50,24 +54,33 @@ export default function ChannelPage() {
   );
 
   const volumeController = isMute ? (
-    <OffVolumeIcon onClick={muteController} />
+    <OffVolumeIcon onClick={handleOnMute} />
   ) : (
-    <OnVolumeIcon onClick={muteController} />
+    <OnVolumeIcon
+      onClick={handleOnMute}
+      color={audioRefs.length ? "black" : `${theme.gray}`}
+    />
   );
 
   return (
     <Container>
       <ChannelInfoWrapper>
         <ChannelInfo>
-          <ChannelTitle># 바코</ChannelTitle>
-          <AudioContainer
-            myAudio={myAudio}
-            peers={peers}
-            audioRefsDispatch={audioRefsDispatch}
-          />
-          <ChannelDescription>
-            {audioRefs.length + 1}명 접속중 입니다
-          </ChannelDescription>
+          {err ? (
+            <MediaError>연결된 미디어 장치가 없습니다</MediaError>
+          ) : (
+            <>
+              <ChannelTitle># 바코</ChannelTitle>
+              <AudioContainer
+                myAudio={myAudio}
+                peers={peers}
+                audioRefsDispatch={audioRefsDispatch}
+              />
+              <ChannelDescription>
+                {audioRefs.length + 1}명 접속중 입니다
+              </ChannelDescription>
+            </>
+          )}
         </ChannelInfo>
       </ChannelInfoWrapper>
       <ControllerWrapper>
@@ -106,6 +119,10 @@ const ChannelInfo = styled.div`
   background-color: ${theme.channelBackGround};
   border-radius: 10px;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+`;
+
+const MediaError = styled.h3`
+  text-align: center;
 `;
 
 const ChannelTitle = styled.p`
@@ -147,6 +164,7 @@ const OffMicIcon = styled(FaMicrophoneAltSlash)`
 `;
 
 const OnVolumeIcon = styled(FaVolumeUp)`
+  color: ${(props) => props.color};
   font-size: 32px;
 `;
 
@@ -165,6 +183,6 @@ const LeaveButton = styled.button`
   &:hover {
     background-color: ${theme.blue};
     color: ${theme.white};
-    @include transition(all 0.5s ease);
+    transition: all 0.2s ease;
   }
 `;

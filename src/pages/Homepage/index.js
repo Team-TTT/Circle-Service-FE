@@ -22,8 +22,10 @@ export default function HomePage() {
               <ChannelItem
                 to={`/projects/${projectInfo._id}/channels/${channel._id}`}
               >
-                <ChannelTitle>{channel.title}</ChannelTitle>
-                <ChannelDescription>{channel.description}</ChannelDescription>
+                <ChannelTitle># General</ChannelTitle>
+                <ChannelDescription>
+                  자유롭게 대화를 나눠보세요
+                </ChannelDescription>
               </ChannelItem>
             </ChannelBox>
           ))}
@@ -33,15 +35,13 @@ export default function HomePage() {
 }
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   width: 100%;
   height: 100%;
   background-color: ${theme.skyBlue};
 `;
 
 const FixedDescription = styled.p`
+  margin-bottom: 10px;
   font-size: 20px;
   line-height: 30px;
   margin: 0px auto;
