@@ -26,9 +26,12 @@ export default function ServiceLayOut() {
       const result = await response.json();
       setProjectInfo(result);
     };
-    if (!projectInfo) {
-      getServiceProject();
-    }
+
+    window.addEventListener("message", ({ data }) => {
+      if (data.projectId && data.secretKey) {
+        getServiceProject();
+      }
+    });
   }, [projectInfo]);
   // 에러가 나면 iframe 빈 하늘색 창이 보임 -> 이것도 안 보이게 해야 함.
   return (
