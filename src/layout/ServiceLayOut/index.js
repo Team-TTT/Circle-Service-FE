@@ -12,7 +12,9 @@ export default function ServiceLayOut() {
   useEffect(() => {
     // 서버 배포후 url로 수정할 예정
     // eslint-disable-next-line no-unused-vars
-    const getServiceProject = async (projectId, data) => {
+    const userProjectId = "6353fa78f312cdeb9b5994d8";
+    const userSecretKey = "b660715ad7ebb171aa0ada977bc124d3";
+    const getServiceProject = async (projectId, secretKey) => {
       const response = await fetch(
         `http://localhost:8080/projects/${projectId}/service/auth`,
         {
@@ -20,20 +22,14 @@ export default function ServiceLayOut() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify(secretKey),
         }
       );
       const result = await response.json();
       setProjectInfo(result);
     };
-
-    window.addEventListener("message", ({ data }) => {
-      if (data.projectId && data.secretKey) {
-        getServiceProject();
-      }
-    });
+    getServiceProject(userProjectId, userSecretKey);
   }, [projectInfo]);
-  // 에러가 나면 iframe 빈 하늘색 창이 보임 -> 이것도 안 보이게 해야 함.
   return (
     <Container color={channelId ? theme.white : theme.skyBlue}>
       {projectInfo?.title ? (
