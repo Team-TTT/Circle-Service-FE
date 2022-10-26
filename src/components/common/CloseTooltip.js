@@ -40,36 +40,36 @@ const boxFade = keyframes`
 `;
 
 const Content = styled.div`
+  position: absolute;
   display: none;
   flex-direction: column;
-  position: absolute;
   animation: ${boxFade} 0.2s ease;
   z-index: 9;
 `;
 
 const TextBox = styled.div`
   position: relative;
+  left: -70px;
   width: 100px;
-  background: #484848;
-  border-radius: 5px;
   padding: 8px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 5px 17px 0px rgba(0, 0, 0, 0.64);
+  box-shadow: 0px 5px 17px 0px rgba(0, 0, 0, 0.64);
+  background: #484848;
   text-align: center;
   vertical-align: middle;
   color: white;
-  left: -70px;
-  -webkit-box-shadow: 0px 5px 17px 0px rgba(0, 0, 0, 0.64);
-  box-shadow: 0px 5px 17px 0px rgba(0, 0, 0, 0.64);
 
   &:after {
     content: "";
     position: absolute;
-    border-style: solid;
-    border-width: 0 10px 10px;
-    border-color: #484848 transparent;
-    display: block;
-    width: 0;
-    z-index: 1;
     top: -10px;
     left: 83px;
+    display: block;
+    width: 0;
+    border-width: 0 10px 10px;
+    border-color: #484848 transparent;
+    border-style: solid;
+    z-index: 1;
   }
 `;
