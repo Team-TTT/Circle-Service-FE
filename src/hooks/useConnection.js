@@ -1,4 +1,5 @@
 import { useEffect, useReducer, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Peer from "simple-peer";
 
 import { audioRefsAction, peersAction } from "../reducer/actions";
@@ -12,6 +13,7 @@ export default function useConnection(channelId) {
   const [err, setErr] = useState(null);
   const socket = useSocket();
   const myAudio = useRef();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const connectRTC = async () => {
@@ -51,9 +53,8 @@ export default function useConnection(channelId) {
               peer.destroy();
             });
 
-            peer.on("error", (error) => {
-              /* eslint-disable-next-line no-console */
-              console.error(error);
+            peer.on("error", () => {
+              navigate("/");
             });
 
             return peer;
@@ -87,9 +88,8 @@ export default function useConnection(channelId) {
             peer.destroy();
           });
 
-          peer.on("error", (error) => {
-            /* eslint-disable-next-line no-console */
-            console.error(error);
+          peer.on("error", () => {
+            navigate("/");
           });
 
           peer.id = payload.callerId;
@@ -117,7 +117,7 @@ export default function useConnection(channelId) {
     if (socket) {
       connectRTC();
     }
-  }, [channelId, socket]);
+  }, [channelId, navigate, socket]);
 
   return {
     peers,
