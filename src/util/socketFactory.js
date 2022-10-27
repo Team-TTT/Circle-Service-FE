@@ -10,7 +10,10 @@ const createSocket = () => {
       return socket;
     }
 
-    socket = io(SOCKET_URL);
+    socket = io(SOCKET_URL, {
+      path: "/circle-io",
+      transports: ["websocket"],
+    });
 
     return socket;
   };
