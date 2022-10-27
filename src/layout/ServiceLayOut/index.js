@@ -13,7 +13,7 @@ export default function ServiceLayOut() {
   useEffect(() => {
     const getServiceProject = async (projectId, secretKey) => {
       const response = await fetch(
-        `${process.env.SERVER_URL}/projects/${projectId}/service/auth`,
+        `${process.env.REACT_APP_SERVER_URL}/projects/${projectId}/service/auth`,
         {
           method: "POST",
           headers: {
@@ -25,16 +25,24 @@ export default function ServiceLayOut() {
       const result = await response.json();
       setProjectInfo(result);
     };
-    window.addEventListener("message", (event) => {
+
+    const onLoadProject = (event) => {
       const { projectId, secretKey } = event.data;
 
-      if (!projectId || !secretKey) {
+      if (projectId && secretKey) {
+        getServiceProject(projectId, secretKey);
+        return;
+      }
+      if (event.origin !== process.env.PUBLIC_URL) {
         navigate("/error");
       }
+    };
+    window.addEventListener("message", onLoadProject);
 
-      getServiceProject(projectId, secretKey);
-    });
-  }, [navigate]);
+    return () => {
+      window.removeEventListener("message", onLoadProject);
+    };
+  }, [navigate, projectInfo]);
 
   return (
     <Container color={channelId ? theme.white : theme.skyBlue}>

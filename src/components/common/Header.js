@@ -10,7 +10,7 @@ export default function Header({ title }) {
   const { channelId } = useParams();
 
   const handleCloseButton = () => {
-    window.parent.postMessage("closeButton", "*");
+    window.parent.postMessage("closeCircle", "*");
   };
 
   return (
