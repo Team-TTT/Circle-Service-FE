@@ -26,21 +26,16 @@ export default function ServiceLayOut() {
       setProjectInfo(result);
     };
 
-    const onLoadProject = (event) => {
+    const loadProject = (event) => {
       const { projectId, secretKey } = event.data;
-
       if (projectId && secretKey) {
         getServiceProject(projectId, secretKey);
-        return;
-      }
-      if (event.origin !== process.env.PUBLIC_URL) {
-        navigate("/error");
       }
     };
-    window.addEventListener("message", onLoadProject);
+    window.addEventListener("message", loadProject);
 
     return () => {
-      window.removeEventListener("message", onLoadProject);
+      window.removeEventListener("message", loadProject);
     };
   }, [navigate, projectInfo]);
 
