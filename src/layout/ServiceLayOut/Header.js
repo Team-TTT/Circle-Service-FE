@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { theme } from "../../config/constants";
+import CloseTooltip from "../../components/common/CloseTooltip";
 
 export default function Header({ title }) {
   const { channelId } = useParams();
@@ -19,9 +20,13 @@ export default function Header({ title }) {
 
   return (
     <Container color={channelId ? theme.white : theme.skyBlue}>
-      <CloseButton onClick={handleCloseButton}>
-        <CloseIcon />
-      </CloseButton>
+      <ButtonWrapper>
+        <CloseTooltip message="Back to Circle">
+          <CloseButton onClick={handleCloseButton}>
+            <CloseIcon />
+          </CloseButton>
+        </CloseTooltip>
+      </ButtonWrapper>
       <Title>{title}</Title>
     </Container>
   );
@@ -32,21 +37,26 @@ Header.propTypes = {
 };
 
 const Container = styled.div`
+  position: relative;
   background-color: ${(props) => props.color};
 `;
 
-const CloseButton = styled.button`
+const ButtonWrapper = styled.div`
+  display: inline;
   position: absolute;
   right: 0;
   top: 0;
   padding: 0;
+`;
+
+const CloseButton = styled.button`
   border: none;
   background-color: transparent;
 `;
 
 const CloseIcon = styled(IoMdCloseCircleOutline)`
   position: relative;
-  margin: 15px;
+  padding: 15px 15px 2px 2px;
   font-size: 30px;
   cursor: pointer;
 `;

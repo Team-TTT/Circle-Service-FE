@@ -59,6 +59,7 @@ export default function ChannelPage() {
     <OnVolumeIcon
       onClick={handleOnMute}
       color={audioRefs.length ? "black" : `${theme.gray}`}
+      cursor={audioRefs.length ? "pointer" : "auto"}
     />
   );
 
@@ -157,19 +158,23 @@ const ControllerItemWrapper = styled.div`
 
 const OnMicIcon = styled(FaMicrophoneAlt)`
   font-size: 32px;
+  cursor: pointer;
 `;
 
 const OffMicIcon = styled(FaMicrophoneAltSlash)`
   font-size: 32px;
+  cursor: pointer;
 `;
 
 const OnVolumeIcon = styled(FaVolumeUp)`
   color: ${(props) => props.color};
   font-size: 32px;
+  cursor: ${(props) => props.cursor};
 `;
 
 const OffVolumeIcon = styled(FaVolumeMute)`
   font-size: 32px;
+  cursor: pointer;
 `;
 
 const LeaveButton = styled.button`
