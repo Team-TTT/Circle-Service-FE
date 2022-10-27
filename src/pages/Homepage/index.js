@@ -35,16 +35,13 @@ export default function HomePage() {
 }
 
 const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   width: 100%;
   height: 100%;
   background-color: ${theme.skyBlue};
 `;
 
 const FixedDescription = styled.p`
-  margin: 0px auto;
+  margin: 0 auto;
   font-size: 20px;
   line-height: 30px;
 `;

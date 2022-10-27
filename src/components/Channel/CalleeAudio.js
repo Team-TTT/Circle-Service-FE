@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import Peer from "simple-peer";
 
@@ -11,13 +12,13 @@ import AudioWrapper from "../shared/AudioWrapper";
 export default function CalleeAudio({ peer, audioRefsDispatch }) {
   const audioRef = useRef();
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     peer.on("stream", (stream) => {
       audioRef.current.srcObject = stream;
-      audioRef.current.play().catch((error) => {
-        /* eslint-disable-next-line no-console */
-        console.error(error);
+      audioRef.current.play().catch(() => {
+        navigate("/");
       });
 
       const audioRefInfo = {
@@ -28,7 +29,7 @@ export default function CalleeAudio({ peer, audioRefsDispatch }) {
       setIsLoading(false);
       audioRefsDispatch({ type: audioRefsAction.ADD, payload: audioRefInfo });
     });
-  }, [audioRefsDispatch, peer]);
+  }, [audioRefsDispatch, navigate, peer]);
 
   return (
     <AudioWrapper>

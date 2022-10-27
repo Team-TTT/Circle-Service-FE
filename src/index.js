@@ -16,7 +16,7 @@ const rootDiv = document.querySelector("#root");
 const root = ReactDOM.createRoot(rootDiv);
 
 root.render(
-  <BrowserRouter>
+  <BrowserRouter basename={process.env.PUBLIC_URL}>
     <GlobalStyle />
     <App />
   </BrowserRouter>

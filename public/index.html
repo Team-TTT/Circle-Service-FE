@@ -1,31 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-  <title>Document</title>
-</head>
-<body>
-  <div id="core-circle">
-    <span class="material-symbols-outlined">
-      headset_mic
-    </span>
-  </div>
-  <div id="iframe-circle" style="visibility: hidden">
+<html lang="en" style="width: 100%; height: 100%">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+    />
+    <title>Document</title>
+  </head>
+  <body style="width: 100%; height: 100%; margin: 0">
     <div id="root" className="circle-service"></div>
-  </div>
-</body>
-  <script>
-    const circleButton = document.getElementById("core-circle");
-
-    circleButton.addEventListener("click", () => {
-      const circleButton = document.getElementById("core-circle");
-      const circleService = document.getElementById("iframe-circle");
-
-      circleButton.style.opacity = 0;
-      circleService.style.visibility = "visible";
-    });
-  </script>
+  </body>
 </html>

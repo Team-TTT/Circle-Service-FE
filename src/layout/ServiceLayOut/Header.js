@@ -11,11 +11,7 @@ export default function Header({ title }) {
   const { channelId } = useParams();
 
   const handleCloseButton = () => {
-    const circleButton = document.getElementById("core-circle");
-    const circleService = document.getElementById("iframe-circle");
-
-    circleButton.style.opacity = 1;
-    circleService.style.visibility = "hidden";
+    window.parent.postMessage("closeCircle", "*");
   };
 
   return (
