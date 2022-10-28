@@ -54,7 +54,7 @@ export default function useConnection(channelId) {
             });
 
             peer.on("error", () => {
-              window.location.reload();
+              window.location.reload(true);
             });
 
             return peer;
@@ -89,7 +89,7 @@ export default function useConnection(channelId) {
           });
 
           peer.on("error", () => {
-            navigate("/");
+            window.location.reload(true);
           });
 
           peer.id = payload.callerId;

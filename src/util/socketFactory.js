@@ -10,7 +10,11 @@ const createSocket = () => {
       return socket;
     }
 
-    socket = io(SOCKET_URL);
+    socket = io(SOCKET_URL, {
+      secure: true,
+      reconnect: true,
+      rejectUnauthorized: false,
+    });
 
     return socket;
   };
