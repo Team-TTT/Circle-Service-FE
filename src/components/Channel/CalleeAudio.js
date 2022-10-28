@@ -18,7 +18,7 @@ export default function CalleeAudio({ peer, audioRefsDispatch }) {
     peer.on("stream", (stream) => {
       audioRef.current.srcObject = stream;
       audioRef.current.play().catch(() => {
-        navigate("/");
+        window.location.reload();
       });
 
       const audioRefInfo = {

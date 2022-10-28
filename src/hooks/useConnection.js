@@ -54,7 +54,7 @@ export default function useConnection(channelId) {
             });
 
             peer.on("error", () => {
-              navigate("/");
+              window.location.reload();
             });
 
             return peer;
