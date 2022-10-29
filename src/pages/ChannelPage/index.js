@@ -6,7 +6,7 @@ import {
   FaVolumeUp,
   FaVolumeMute,
 } from "react-icons/fa";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 
 import { theme } from "../../config/constants";
 import { audioRefsAction } from "../../reducer/actions";
@@ -15,10 +15,11 @@ import AudioContainer from "../../components/Channel/AudioContainer";
 import handleStream from "../../util/handleStream";
 
 export default function ChannelPage() {
-  const { channelId } = useParams();
+  const { projectInfo } = useOutletContext();
   const [isOnMic, setIsOnMic] = useState(true);
   const [isMute, setIsMute] = useState(false);
   const navigate = useNavigate();
+  const { channelId } = useParams();
 
   const { peers, myAudio, audioRefs, audioRefsDispatch, err } =
     useConnection(channelId);
@@ -63,6 +64,10 @@ export default function ChannelPage() {
     />
   );
 
+  const targetChannel = projectInfo.channels.find(
+    ({ _id }) => _id === channelId
+  );
+
   return (
     <Container>
       <ChannelInfoWrapper>
@@ -71,7 +76,7 @@ export default function ChannelPage() {
             <MediaError>연결된 미디어 장치가 없습니다</MediaError>
           ) : (
             <>
-              <ChannelTitle># 바코</ChannelTitle>
+              <ChannelTitle>{targetChannel.title}</ChannelTitle>
               <AudioContainer
                 myAudio={myAudio}
                 peers={peers}
