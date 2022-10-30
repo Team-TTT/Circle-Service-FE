@@ -17,9 +17,7 @@ export default function CalleeAudio({ peer, audioRefsDispatch }) {
   useEffect(() => {
     peer.on("stream", (stream) => {
       audioRef.current.srcObject = stream;
-      audioRef.current.play().catch(() => {
-        navigate("/");
-      });
+      audioRef.current.play();
 
       const audioRefInfo = {
         audioRef,

@@ -48,15 +48,6 @@ export default function useConnection(channelId) {
 
             peer.id = calleeId;
 
-            peer.on("close", () => {
-              peer.removeAllListeners("close");
-              peer.destroy();
-            });
-
-            peer.on("error", () => {
-              navigate("/");
-            });
-
             return peer;
           });
 
@@ -82,15 +73,6 @@ export default function useConnection(channelId) {
           });
 
           peer.signal(payload.signal);
-
-          peer.on("close", () => {
-            peer.removeAllListeners("close");
-            peer.destroy();
-          });
-
-          peer.on("error", () => {
-            navigate("/");
-          });
 
           peer.id = payload.callerId;
 

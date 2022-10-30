@@ -10,6 +10,19 @@ export default function ServiceLayOut() {
   const { channelId } = useParams();
 
   useEffect(() => {
+    if (process.env.REACT_APP_NODE_ENV === "development") {
+      const getData = async () => {
+        const response = await fetch("/mockData/mock.json");
+
+        const data = await response.json();
+        setProjectInfo(data);
+      };
+
+      getData();
+
+      return;
+    }
+
     const onLoadProject = (event) => {
       if (event.data) {
         setProjectInfo(JSON.parse(event.data));
@@ -19,6 +32,7 @@ export default function ServiceLayOut() {
     window.addEventListener("message", onLoadProject);
     window.parent.postMessage("getData", "*");
 
+    // eslint-disable-next-line consistent-return
     return () => {
       window.removeEventListener("message", onLoadProject);
     };
