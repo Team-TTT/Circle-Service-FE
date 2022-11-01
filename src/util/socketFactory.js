@@ -11,6 +11,7 @@ const createSocket = () => {
     }
 
     socket = io(SOCKET_URL, {
+      path: "/circle-io",
       secure: true,
       reconnect: true,
       rejectUnauthorized: false,

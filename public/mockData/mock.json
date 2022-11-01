@@ -1,0 +1,29 @@
+{
+  "_id": "635bb2b0a839de0976c242e6",
+  "secretKey": {
+    "iv": "7ca3cff067d41ad6981c25f3e5018322",
+    "key": "14541454e4116bcd156e3a991a221b78a6b14509aca303c899a28c71f624ab09",
+    "_id": "635bb2b0a839de0976c242e7"
+  },
+  "owner": "635b3a19d5d5b11394803c46",
+  "title": "바닐라 코딩",
+  "channels": [
+    {
+      "_id": "635c8458f0b2e0183c1db00a",
+      "title": "서비스 안내",
+      "description": "Circle이 궁금하다면..!",
+      "isActive": true,
+      "__v": 0
+    },
+    {
+      "_id": "635c8466f0b2e0183c1db014",
+      "title": "자유로운 대화",
+      "description": "blah blah",
+      "isActive": true,
+      "__v": 0
+    }
+  ],
+  "createdAt": "2022-10-28T10:45:04.508Z",
+  "updatedAt": "2022-10-29T01:39:50.670Z",
+  "__v": 0
+}

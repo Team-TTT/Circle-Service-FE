@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import { theme } from "../../config/constants";
 import CloseTooltip from "../../components/common/CloseTooltip";
 
-export default function Header({ title }) {
+export default function Header({ title = "" }) {
   const { channelId } = useParams();
 
   const handleCloseButton = () => {
@@ -29,7 +29,11 @@ export default function Header({ title }) {
 }
 
 Header.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
+};
+
+Header.defaultProps = {
+  title: "",
 };
 
 const Container = styled.div`
