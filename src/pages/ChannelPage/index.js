@@ -83,7 +83,7 @@ export default function ChannelPage() {
                 audioRefsDispatch={audioRefsDispatch}
               />
               <ChannelDescription>
-                {audioRefs.length + 1}명 접속중 입니다
+                {peers.length + 1}명 접속중 입니다
               </ChannelDescription>
             </>
           )}
