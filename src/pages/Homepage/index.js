@@ -17,11 +17,9 @@ export default function HomePage() {
       <ChannelsWrapper>
         {projectInfo.channels
           .filter((channel) => channel.isActive)
-          .map((channel) => (
+          .map((channel, index) => (
             <ChannelBox key={channel._id}>
-              <ChannelItem
-                to={`/projects/${projectInfo._id}/channels/${channel._id}`}
-              >
+              <ChannelItem to={`/${channel._id}`} data-testid={index}>
                 <ChannelTitle>{channel.title}</ChannelTitle>
                 <ChannelDescription>{channel.description}</ChannelDescription>
               </ChannelItem>
