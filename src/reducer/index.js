@@ -5,26 +5,12 @@ export const peersReducer = (state, { type, payload }) => {
     return payload;
   }
 
-  if (type === peersAction.SIGNAL) {
-    const targetPeer = state.find((peer) => peer.id === payload.calleeId);
-    targetPeer.signal(payload.signal);
-
-    return state;
+  if (type === peersAction.ADD) {
+    return [...payload.current];
   }
 
   if (type === peersAction.DISCONNECT) {
-    const targetPeer = state.find((peer) => peer.id === payload);
-
-    if (targetPeer) {
-      targetPeer.removeAllListeners("close");
-      targetPeer.destroy();
-    }
-
-    return state.filter((peer) => peer.id !== payload);
-  }
-
-  if (type === peersAction.ADD) {
-    return [...state, payload];
+    return [...payload.current];
   }
 
   return state;
