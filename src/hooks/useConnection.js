@@ -109,7 +109,7 @@ export default function useConnection(channelId) {
 
           peersRef.current.push(peer);
 
-          peersDispatch({ type: peersAction.ADD, payload: peersRef });
+          peersDispatch({ type: peersAction.ADD, payload: peer });
         });
 
         socket.on(CHANNEL.RETURN_SIGNAL, (payload) => {
@@ -136,7 +136,7 @@ export default function useConnection(channelId) {
             (peer) => peer.id !== targetId
           );
 
-          peersDispatch({ type: peersAction.DISCONNECT, payload: peersRef });
+          peersDispatch({ type: peersAction.DISCONNECT, payload: targetId });
         });
       } catch (error) {
         setErr("미디어 장치가 없습니다");

@@ -6,11 +6,11 @@ export const peersReducer = (state, { type, payload }) => {
   }
 
   if (type === peersAction.ADD) {
-    return [...payload.current];
+    return [...state, payload];
   }
 
   if (type === peersAction.DISCONNECT) {
-    return [...payload.current];
+    return state.filter((peer) => peer.id !== payload);
   }
 
   return state;
