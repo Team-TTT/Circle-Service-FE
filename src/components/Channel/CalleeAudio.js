@@ -31,7 +31,7 @@ export default function CalleeAudio({ peer, audioRefsDispatch }) {
   return (
     <AudioWrapper>
       {isLoading ? <CustomSpinner /> : <UserIcon />}
-      <StyledAudio autoplay ref={audioRef} />
+      <StyledAudio playsInline autoplay ref={audioRef} />
     </AudioWrapper>
   );
 }
