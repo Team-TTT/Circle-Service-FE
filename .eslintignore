@@ -6,3 +6,6 @@ public
 node_modules
 package.json
 package-lock.json
+
+# test
+src/spec
