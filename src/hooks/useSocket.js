@@ -23,11 +23,10 @@ export default function useSocket() {
 
     return () => {
       if (socket) {
-        socket.off(CHANNEL.ANSWER);
         socket.off(CHANNEL.EXISTED_CALLEES);
+        socket.off(CHANNEL.USER_JOIN);
         socket.off(CHANNEL.RETURN_SIGNAL);
         socket.off(CHANNEL.USER_DISCONNECT);
-        socket.off(CHANNEL.OFFER);
         socket.disconnect();
       }
     };

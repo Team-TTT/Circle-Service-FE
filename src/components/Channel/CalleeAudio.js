@@ -1,18 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import PropTypes from "prop-types";
 import Peer from "simple-peer";
 
 import { audioRefsAction } from "../../reducer/actions";
-import LoadingIcon from "../shared/LoadingUserIcon";
 import UserIcon from "../shared/UserIcon";
 import StyledAudio from "../shared/StyledAudio";
 import AudioWrapper from "../shared/AudioWrapper";
+import Spinner from "../shared/Spinner";
 
 export default function CalleeAudio({ peer, audioRefsDispatch }) {
-  const audioRef = useRef();
   const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
+  const audioRef = useRef();
 
   useEffect(() => {
     peer.on("stream", (stream) => {
@@ -27,12 +26,12 @@ export default function CalleeAudio({ peer, audioRefsDispatch }) {
       setIsLoading(false);
       audioRefsDispatch({ type: audioRefsAction.ADD, payload: audioRefInfo });
     });
-  }, [audioRefsDispatch, navigate, peer]);
+  }, [audioRefsDispatch, peer]);
 
   return (
     <AudioWrapper>
-      {isLoading ? <LoadingIcon /> : <UserIcon />}
-      <StyledAudio playsInline autoPlay ref={audioRef} />
+      {isLoading ? <CustomSpinner /> : <UserIcon />}
+      <StyledAudio playsInline autoplay ref={audioRef} />
     </AudioWrapper>
   );
 }
@@ -41,3 +40,8 @@ CalleeAudio.propTypes = {
   peer: PropTypes.instanceOf(Peer).isRequired,
   audioRefsDispatch: PropTypes.func.isRequired,
 };
+
+const CustomSpinner = styled(Spinner)`
+  width: 30px;
+  height: 30px;
+`;

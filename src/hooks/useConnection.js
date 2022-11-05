@@ -1,5 +1,4 @@
 import { useEffect, useReducer, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Peer from "simple-peer";
 
 import { audioRefsAction, peersAction } from "../reducer/actions";
@@ -13,7 +12,7 @@ export default function useConnection(channelId) {
   const [err, setErr] = useState(null);
   const socket = useSocket();
   const myAudio = useRef();
-  const navigate = useNavigate();
+  const peersRef = useRef([]);
 
   useEffect(() => {
     const connectRTC = async () => {
@@ -32,13 +31,28 @@ export default function useConnection(channelId) {
               initiator: true,
               trickle: false,
               stream,
+              config: {
+                iceServers: [
+                  { urls: "stun:stun.l.google.com:19302" },
+                  { urls: "stun:stun1.l.google.com:19302" },
+                  { urls: "stun:stun2.l.google.com:19302" },
+                  { urls: "stun:stun3.l.google.com:19302" },
+                  { urls: "stun:stun4.l.google.com:19302" },
+                  {
+                    url: "turn:turn.bistri.com:80",
+                    credential: "homeo",
+                    username: "homeo",
+                  },
+                  {
+                    url: "turn:turn.anyfirewall.com:443?transport=tcp",
+                    credential: "webrtc",
+                    username: "webrtc",
+                  },
+                ],
+              },
             });
 
             peer.on("signal", (signal) => {
-              if (signal.renegotiate || signal.transceiverRequest) {
-                return;
-              }
-
               socket.emit(CHANNEL.OFFER, {
                 calleeId,
                 callerId: socket.id,
@@ -51,6 +65,8 @@ export default function useConnection(channelId) {
             return peer;
           });
 
+          peersRef.current = newPeers;
+
           peersDispatch({ type: peersAction.INIT, payload: newPeers });
         });
 
@@ -59,28 +75,49 @@ export default function useConnection(channelId) {
             initiator: false,
             trickle: false,
             stream,
+            config: {
+              iceServers: [
+                { urls: "stun:stun.l.google.com:19302" },
+                { urls: "stun:stun1.l.google.com:19302" },
+                { urls: "stun:stun2.l.google.com:19302" },
+                { urls: "stun:stun3.l.google.com:19302" },
+                { urls: "stun:stun4.l.google.com:19302" },
+                {
+                  url: "turn:turn.bistri.com:80",
+                  credential: "homeo",
+                  username: "homeo",
+                },
+                {
+                  url: "turn:turn.anyfirewall.com:443?transport=tcp",
+                  credential: "webrtc",
+                  username: "webrtc",
+                },
+              ],
+            },
           });
 
           peer.on("signal", (signal) => {
-            if (signal.renegotiate || signal.transceiverRequest) {
-              return;
-            }
-
             socket.emit(CHANNEL.ANSWER, {
               callerId: payload.callerId,
               signal,
             });
           });
 
+          peer.id = payload.callerId;
+
           peer.signal(payload.signal);
 
-          peer.id = payload.callerId;
+          peersRef.current.push(peer);
 
           peersDispatch({ type: peersAction.ADD, payload: peer });
         });
 
         socket.on(CHANNEL.RETURN_SIGNAL, (payload) => {
-          peersDispatch({ type: peersAction.SIGNAL, payload });
+          const targetPeer = peersRef.current.find(
+            (peer) => peer.id === payload.calleeId
+          );
+
+          targetPeer.signal(payload.signal);
         });
 
         socket.on(CHANNEL.USER_DISCONNECT, (targetId) => {
@@ -88,6 +125,16 @@ export default function useConnection(channelId) {
             type: audioRefsAction.DELETE,
             payload: targetId,
           });
+
+          const targetPeer = peersRef.current.find(
+            (peer) => peer.id === targetId
+          );
+
+          targetPeer?.destroy();
+
+          peersRef.current = peersRef.current.filter(
+            (peer) => peer.id !== targetId
+          );
 
           peersDispatch({ type: peersAction.DISCONNECT, payload: targetId });
         });
@@ -99,7 +146,7 @@ export default function useConnection(channelId) {
     if (socket) {
       connectRTC();
     }
-  }, [channelId, navigate, socket]);
+  }, [channelId, socket]);
 
   return {
     peers,
