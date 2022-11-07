@@ -21,6 +21,10 @@ Circle은 웹페이지를 방문한 사용자들이 실시간으로 음성 대�
 - [Circle homepage](https://www.ttt-circle.online/)
 - [Circle demo page](https://sage-custard-c3a598.netlify.app/)
 
+### Repository
+- [Frontend - Web Client](https://github.com/Team-TTT/Circle-Web-FE)
+- [Backend](https://github.com/Team-TTT/Circle-BE)
+
 <br>
 
 |||
@@ -84,33 +88,21 @@ Circle은 웹페이지를 방문한 사용자들이 실시간으로 음성 대�
 
 1. 프로젝트를 클론 받은 후, 루트 디렉토리에 `.env` 파일을 생성 후 아래와 같이 환경 변수를 입력해 주세요.
 
-    [Firebase SDK 설정 참조 문서](https://firebase.google.com/docs/web/learn-more#config-object)
-
     <details>
-      <summary>Web Client</summary>
+    <summary>Service Client</summary>
 
     ```
-    # Firebase config
-    REACT_APP_FIREBASE_API_KEY=<your-api-key>
-    REACT_APP_FIREBASE_AUTH_DOMAIN=<your-auth-domain>
-    REACT_APP_FIREBASE_PROJECT_ID=<your-project-id>
-    REACT_APP_FIREBASE_STORAGE_BUCKET=<your-storage-bucket>
-    REACT_APP_FIREBASE_MESSAGING_SENDER_ID=<your-messaging-sender-id>
-    REACT_APP_FIREBASE_APP_ID=<your-app-id>
-
-    # Initialize app
-    REACT_APP_SERVER_URL=<default = http://localhost:8080>
+    REACT_APP_SOCKET_URL=<default = http://localhost:8080>
+    REACT_APP_NODE_ENV=development
     ```
-
     </details>
 
-<br>
-
 2. 아래의 명령어로 실행해주세요.
-```
-npm install
-npm start
-```
+
+    ```
+    npm install
+    npm start
+    ```
 
 <br>
 
