@@ -43,7 +43,6 @@
   "lint-staged": {
     "*.js": "eslint --fix"
   },
-  "homepage": "https://vaco-team-ttt-circle.netlify.app",
   "devDependencies": {
     "eslint": "^8.25.0",
     "eslint-config-airbnb": "^19.0.4",
